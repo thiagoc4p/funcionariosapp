@@ -1,0 +1,73 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+    <div class="row bootstrap snippets bootdeys">
+        <div class="col-md-9 col-sm-7">
+            <h2 class="main-text">Funcionários</h2>
+        </div>
+    </div>
+    <div *ngFor="let funcionario of funcionarios">
+        <div class="member-entry">
+            <a href="#" class="member-img">
+                <img src="{{funcionario.imageUrl}}" class="img-rounded">
+                <i class="fa fa-forward"></i>
+            </a>
+            <div class="member-details">
+                <h4> <a href="#">{{funcionario.nome}}</a></h4>
+                <div class="row info-list">
+                    <div class="col-sm-4">
+                        <i class="fa fa-briefcase"></i>
+                        <a href="#"> {{funcionario.cargo}}</a>
+                    </div>
+                    <div class="col-sm-4">
+                        <i class="fa fa-twitter"></i>
+                        <a href="#"> @{{funcionario.nome}}</a>
+                    </div>
+                    <div class="col-sm-4">
+                        <i class="fa fa-facebook"></i>
+                        <a href="#"> fb.me/{{funcionario.nome}}</a>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-sm-4">
+                        <i class="fa fa-location"></i>
+                        <a href="#"> {{funcionario.idade}} anos</a>
+                    </div>
+                    <div class="col-sm-4">
+                        <i class="fa fa-envelope"></i>
+                        <a href="#"> {{funcionario.email}}</a>
+                    </div>
+                    <div class="col-sm-4">
+                        <i class="fa fa-linkedin"></i>
+                        <a href="#"> {{funcionario.nome}}</a>
+                    </div>
+                    <div class="col-sm-1">
+                        <a class="fa fa-pencil" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                            data-bs-whatever="@mdo" href="#"> Editar</a>
+                    </div>
+                    <div class="col-sm-2">
+                        <a class="fa fa-trash" href="#" data-toggle="modal" data-target="#deleteModal"> Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Modal title</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
