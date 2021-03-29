@@ -1,2 +1,208 @@
-<app-header></app-header>
-<app-home></app-home>
+<div class="navbar navbar-expand-md navbar-dark bg-dark mb-4" role="navigation">
+    <a class="navbar-brand" href="#">Cadastrar Funcionário</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <button type="button" (click)="onOpenModal(null, 'add')" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#addMymodal" data-bs-whatever="@mdo">Adicionar</button>
+            </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-2">
+            <input type="search" (ngModelChange)="buscarFuncionarios(key.value)" #key="ngModel" ngModel name="key"
+                id="searchName" class="form-control mr-sm-2" placeholder="Buscar funcionário..." required>
+        </form>
+    </div>
+</div>
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div id="main-container">
+    <div class="container">
+        <div class="row bootstrap snippets bootdeys" *ngIf="funcionarios?.length >= 1">
+            <div class="col-md-9 col-sm-7">
+                <h2 class="main-text">Funcionários</h2>
+            </div>
+        </div>
+        <div class="member-entry" *ngFor="let funcionario of funcionarios">
+            <a href="#" class="member-img">
+                <img src="{{funcionario?.imageUrl}}">
+            </a>
+            <div class="member-details">
+                <h4> <a href="#">{{funcionario?.nome}}</a></h4>
+                <div class="row info-list">
+                    <div class="col-sm-4">
+                        <i class="fa fa-briefcase"></i>
+                        <a href="#"> {{funcionario?.cargo}}</a>
+                    </div>
+                    <div class="col-sm-4">
+                        <i class="fa fa-twitter"></i>
+                        <a href="#"> @{{funcionario?.nome}}</a>
+                    </div>
+                    <div class="col-sm-4">
+                        <i class="fa fa-facebook"></i>
+                        <a href="#"> fb.me/{{funcionario?.nome}}</a>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-sm-4">
+                        <i class="fa fa-location"></i>
+                        <a href="#"> {{funcionario?.idade}} anos</a>
+                    </div>
+                    <div class="col-sm-4">
+                        <i class="fa fa-envelope"></i>
+                        <a href="#"> {{funcionario?.email}}</a>
+                    </div>
+                    <div class="col-sm-4">
+                        <i class="fa fa-linkedin"></i>
+                        <a href="#"> {{funcionario?.nome}}</a>
+                    </div>
+                    <div class="col-sm-1">
+                        <a class="fa fa-pencil" (click)="onOpenModal(funcionario, 'update')" data-bs-toggle="modal"
+                            data-bs-target="#updateMymodal" data-bs-whatever="@mdo" href="#"> Editar</a>
+                    </div>
+                    <div class="col-sm-2">
+                        <a class="fa fa-trash" (click)="onOpenModal(funcionario, 'delete')" data-bs-toggle="modal"
+                            data-bs-target="#deleteMymodal" data-bs-whatever="@mdo" href="#"> Excluir</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Adiconar form -->
+    <div class="modal fade" id="addMymodal" tabindex="-1" role="dialog" aria-labelledby="addMymodalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addMymodalLabel">Novo Funcionário</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form #addForm="ngForm" (ngSubmit)="onAddFuncionario(addForm)">
+                        <div class="form-group">
+                            <label for="name">Nome</label>
+                            <input type="text" ngModel name="nome" class="form-control" id="nome" placeholder="Nome"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="idade">Idade</label>
+                            <input type="number" ngModel name="idade" class="form-control" id="idade"
+                                placeholder="Idade" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" ngModel name="email" class="form-control" id="email" placeholder="Email"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cargo">Cargo</label>
+                            <input type="text" ngModel name="cargo" class="form-control" id="cargo" placeholder="Cargo"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="imageUrl">Image URL</label>
+                            <input type="url" ngModel name="imageUrl" class="form-control" id="imageUrl"
+                                placeholder="Image URL" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="add-funcionario-form" class="btn btn-secondary"
+                                data-dismiss="modal">Fechar</button>
+                            <button type="submit" [disabled]="addForm.invalid" class="btn btn-primary">Salvar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="updateMymodal" tabindex="-1" role="dialog" aria-labelledby="updatemodalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updateModalLabel">Atualizar {{updateFuncionario?.nome}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form #editForm="ngForm">
+                        <div class="form-group">
+                            <label for="name">Nome</label>
+                            <input type="text" ngModel="{{updateFuncionario?.nome}}" name="nome" class="form-control"
+                                id="nome" aria-describedby="emailHelp" placeholder="Nome">
+                        </div>
+                        <input type="hidden" ngModel="{{updateFuncionario?.id}}" name="id" class="form-control" id="id"
+                            placeholder="Email">
+                        <input type="hidden" ngModel="{{updateFuncionario?.nome}}" name="userCode" class="form-control"
+                            id="userCode" placeholder="Email">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" ngModel="{{updateFuncionario?.email}}" name="email" class="form-control"
+                                id="email" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <label for="cargo">Cargo</label>
+                            <input type="text" ngModel="{{updateFuncionario?.cargo}}" name="cargo" class="form-control"
+                                id="cargo" placeholder="cargo">
+                        </div>
+                        <div class="form-group">
+                            <label for="idade">Idade</label>
+                            <input type="number" ngModel="{{updateFuncionario?.idade}}" name="idade"
+                                class="form-control" id="idade" name="idade" placeholder="Phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Image URL</label>
+                            <input type="url" ngModel="{{updateFuncionario?.imageUrl}}" name="imageUrl"
+                                class="form-control" id="imageUrl" placeholder="Image URL">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Fechar</button>
+                            <button (click)="onUpdateEmloyee(editForm.value)" data-dismiss="modal"
+                                class="btn btn-warning">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete form -->
+    <div class="modal fade" id="deleteMymodal" tabindex="-1" role="dialog" aria-labelledby="deleteMymodalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="deleteMymodalLabel">Excluir funcionário</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Deseja remover <strong>{{deleteFuncionario?.nome}}</strong>?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" (click)="onDeleteEmployee(deleteFuncionario?.id)"
+                        class="btn btn-danger">Sim</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="funcionarios?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+    <div class="alert alert-info" role="alert">
+        <h4 class="alert-heading">SEM FUNCIONÁRIOS</h4>
+        <p>Nenhum funcionário cadastrado.</p>
+    </div>
+</div>
